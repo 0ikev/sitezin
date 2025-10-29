@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>(✶) Descubra - Roblox 2</title>
+
+  <style>
+    :root {
+      --cor-primaria: rgb(235,16,16);
+      --cor-secundaria: rgb(54,1,17);
+      --cor-barra: rgb(58,0,0);
+      --cor-barra-escura: rgb(14,0,0);
+      --cor-barra-cima: rgb(71,5,5);
+      --cor-categoria: rgb(180, 0, 0);
+      --cor-categoria-escura: rgb(97, 0, 0);
+      --cor-categoria-hover: rgb(255, 0, 0);
+      --cor-categoria-hover-escura: rgb(136, 0, 0);
+      --cor-nome: rgb(255, 72, 72);
+      --cor-texto: #fff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", sans-serif;
+      background: radial-gradient(circle at 10% 10%, var(--cor-primaria), var(--cor-secundaria) 60%);
+      color: var(--cor-texto);
+      min-height: 100vh;
+      transition: background 0.5s ease;
+    }
+
+    .tema-azul {
+      --cor-primaria: rgb(16, 20, 235);
+      --cor-secundaria: rgb(21, 1, 54);
+      --cor-barra: rgb(1, 0, 58);
+      --cor-barra-escura: rgb(1, 0, 14);
+      --cor-barra-cima: rgb(6, 5, 71);
+      --cor-categoria: rgb(12, 0, 180);
+      --cor-categoria-escura: rgb(10, 0, 97);
+      --cor-categoria-hover: rgb(98, 0, 255);
+      --cor-categoria-hover-escura: rgb(63, 0, 136);
+      --cor-nome: rgb(127, 72, 255);
+      --cor-texto: #fff;
+    }
+
+    .barra {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, var(--cor-barra), var(--cor-barra-escura));
+      border-radius: 20px;
+      padding: 16px;
+      margin: 12px;
+      position: relative;
+    }
+
+    .logo {
+      height: 68px;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      margin-top: -34px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .tema-azul .logo {
+      filter: hue-rotate(220deg);
+    }
+
+    .opcoes {
+      height: 50px;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      margin-top: -25px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .opcoes:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s;
+    }
+
+    .titulo-site {
+      font-weight: bold;
+      font-size: 40px;
+      color: var(--cor-texto);
+    }
+
+    .barracima {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, var(--cor-barra-cima), var(--cor-barra-escura));
+      border-radius: 20px;
+      margin: 0 12px 12px 12px;
+      padding: 10px;
+    }
+
+    .barracima .texto {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 0 12px 40px 12px;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    h1 {
+      color: var(--cor-texto);
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    a {
+      color: var(--cor-texto);
+      text-decoration: none;
+    }
+
+    dialog {
+      border: none;
+      border-radius: 15px;
+      background: radial-gradient(circle at top, var(--cor-categoria), var(--cor-categoria-escura));
+      color: var(--cor-texto);
+      padding: 20px 30px;
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      animation: aparecer 0.3s ease;
+    }
+
+    @keyframes aparecer {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+    }
+
+    .fechar {
+      margin-top: 15px;
+      background: rgb(255, 0, 0);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .fechar:hover {
+      background: rgb(143, 0, 0);
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .opcoes-container {
+      display: flex;
+      flex-direction: column;
+      width: 50vh;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .opcao-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .btn-tema {
+      background: linear-gradient(to right, #666, #999);
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .btn-tema.vermelho.ativo {
+      background: linear-gradient(to right, #ff4444, #cc0000);
+    }
+
+    .btn-tema.azul.ativo {
+      background: linear-gradient(to right, rgb(12, 0, 180), rgb(10, 0, 97));
+    }
+
+    .input-nome {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 16px;
+      color: #333;
+      width: 100px;
+    }
+
+    .btn-alterar-foto {
+      background: linear-gradient(to bottom, var(--cor-categoria), var(--cor-categoria-escura));
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-alterar-foto:hover {
+      background: linear-gradient(to bottom, var(--cor-categoria-hover), var(--cor-categoria-hover-escura));
+      transform: scale(1.05);
+    }
+
+    .menu-jogos {
+      border-radius: 20px;
+      background: linear-gradient(to bottom, var(--cor-barra-cima), var(--cor-barra-escura));
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .menu-jogos h2 {
+      margin-bottom: 25px;
+      color: rgb(255, 255, 255);
+    }
+
+    .jogos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      width: 100%;
+      justify-items: center;
+      align-items: start;
+    }
+
+    .jogo-card {
+      position: relative;
+      background-color: rgba(255,255,255,0.05);
+      box-shadow: #0000008f 0px 0px 10px;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s, background-color 0.3s;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+
+    .jogo-card:hover {
+      transform: scale(1.05);
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .jogo-card img {
+      border-radius: 10px;
+      border: 2px solid white;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .jogo-card .jogo-title {
+      display: block;
+      margin-bottom: 15px;
+      font-size: 20px;
+      color: white;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      word-wrap: break-word;
+    }
+
+    .jogo-card .favorite-btn {
+      position: absolute;
+      right: 6%;
+      bottom: 7%;
+      width: auto;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.651);
+      border-radius: 20%;
+      border: none;
+      cursor: pointer;
+      z-index: 5;
+      padding: 2px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .jogo-card .favorite-btn img {
+      width: 32px;
+      height: auto;
+      border: none !important;
+      margin: 0 !important;
+      object-fit: contain;
+      display: block;
+      border-radius: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .jogo-card .favorite-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .jogo-card .favorite-btn:active img {
+      transform: scale(0.9);
+    }
+
+    .menu-jogos p {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="barra">
+    <a href="roblox2.html"><img class="logo" src="https://imguh.com/images/2025/10/27/image3f677ebe564bc6c1.png" alt="logo"></a>
+    <img class="opcoes" src="https://icon-library.com/images/menu-icon-png-3-lines/menu-icon-png-3-lines-5.jpg" id="btnOpcoes" alt="opções">
+    <div class="titulo-site">Roblox 2</div>
+  </header>
+
+  <div class="barracima">
+    <div class="texto">(✶) Descubra</div>
+  </div>
+
+  <div class="container barracima">
+      <div class="menu-jogos">
+        <h2>🎮 Jogos em Destaque 🎮</h2>
+        <hr width="100%" color="white">
+        <div class="jogos-grid" id="jogosGrid">
+        </div>
+
+        <hr width="80%" color="white">
+        <p>Escolha seu jogo!</p>
+      </div>
+  </div>
+
+<input type="file" id="inputFoto" class="file-input" accept="image/*">
+
+    <dialog id="popupOpcoes">
+    <h2>⚙️ Opções</h2>
+
+    <div class="opcoes-container">
+      <div class="opcao-item">
+        <span>Alterar Nome:</span>
+        <input type="text" class="input-nome" id="inputNome" placeholder="Digite seu nome">
+      </div>
+
+      <div class="opcao-item">
+        <span>Alterar Foto:</span>
+        <button class="btn-alterar-foto" id="btnAlterarFotoOpcoes">Escolher Foto</button>
+      </div>
+
+      <div class="opcao-item">
+        <span>Tema de Cor:</span>
+        <div>
+          <button class="btn-tema vermelho ativo" id="btnTemaVermelho">Vermelho</button>
+          <button class="btn-tema azul" id="btnTemaAzul">Azul</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="fechar" id="btnFecharOpcoes">Fechar</button>
+  </dialog>
+
+    <script>
+  const inputFoto = document.getElementById("inputFoto");
+  const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
+  const fotoPerfil = document.getElementById("fotoPerfil");
+
+  const nomeUsuario = document.getElementById("nomeUsuario");
+  const nomeUsuario2 = document.getElementById("nomeUsuario2");
+  const arrobaUsuario = document.getElementById("arrobaUsuario");
+  const inputNome = document.getElementById("inputNome");
+
+  const btnTemaVermelho = document.getElementById("btnTemaVermelho");
+  const btnTemaAzul = document.getElementById("btnTemaAzul");
+
+  const popup = document.getElementById("popupOpcoes");
+  const btnOpcoes = document.getElementById("btnOpcoes");
+  const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
+
+  const STAR_OFF = "https://imguh.com/images/2025/10/28/imagec9e2eb748081e44b.png";
+  const STAR_ON  = "https://imguh.com/images/2025/10/28/image3f0d6e4405788476.png";
+
+  const STORAGE_KEY = "favoritosJogos";
+
+  function atualizarNome(novoNome) {
+    if (!novoNome) return;
+    if (nomeUsuario) nomeUsuario.textContent = novoNome;
+    if (nomeUsuario2) nomeUsuario2.textContent = novoNome;
+    if (arrobaUsuario) arrobaUsuario.textContent = novoNome.toLowerCase().replace(/\s+/g, "");
+    try { localStorage.setItem("nomeUsuario", novoNome); } catch(e) {}
+  }
+
+  if (btnAlterarFotoOpcoes && inputFoto) {
+    btnAlterarFotoOpcoes.addEventListener("click", () => inputFoto.click());
+  }
+
+  if (inputFoto) {
+    inputFoto.addEventListener("change", function(e) {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          if (fotoPerfil) fotoPerfil.src = ev.target.result;
+          try { localStorage.setItem("fotoPerfil", ev.target.result); } catch(e) {}
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (nomeUsuario) {
+    nomeUsuario.addEventListener("input", function() {
+      atualizarNome(this.textContent);
+    });
+  }
+
+  if (inputNome) {
+    inputNome.addEventListener("input", function() {
+      const novoNome = this.value.trim();
+      if (novoNome) atualizarNome(novoNome);
+    });
+  }
+
+  if (btnTemaVermelho) {
+    btnTemaVermelho.addEventListener("click", function() {
+      document.body.classList.remove("tema-azul");
+      btnTemaVermelho.classList.add("ativo");
+      if (btnTemaAzul) btnTemaAzul.classList.remove("ativo");
+      try { localStorage.setItem("tema", "vermelho"); } catch(e) {}
+    });
+  }
+
+  if (btnTemaAzul) {
+    btnTemaAzul.addEventListener("click", function() {
+      document.body.classList.add("tema-azul");
+      btnTemaAzul.classList.add("ativo");
+      if (btnTemaVermelho) btnTemaVermelho.classList.remove("ativo");
+      try { localStorage.setItem("tema", "azul"); } catch(e) {}
+    });
+  }
+
+  if (btnOpcoes && popup) {
+    btnOpcoes.addEventListener("click", () => {
+      if (inputNome && nomeUsuario) inputNome.value = nomeUsuario.textContent;
+      try {
+        if (typeof popup.showModal === "function") popup.showModal();
+        else popup.style.display = "block";
+      } catch(e) {
+        popup.style.display = "block";
+      }
+    });
+  }
+
+  if (btnFecharOpcoes && popup) {
+    btnFecharOpcoes.addEventListener("click", () => {
+      try {
+        if (typeof popup.close === "function") popup.close();
+        else popup.style.display = "none";
+      } catch(e) {
+        popup.style.display = "none";
+      }
+    });
+  }
+
+  function getFavorites() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      return JSON.parse(raw);
+    } catch (e) {
+      console.error("Erro lendo favoritos:", e);
+      return [];
+    }
+  }
+
+  function saveFavorites(arr) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    } catch (e) {
+      console.error("Erro salvando favoritos:", e);
+    }
+  }
+
+  function isFavoriteByName(name) {
+    const favs = getFavorites();
+    return favs.some(f => f.name === name);
+  }
+
+  function addFavorite(obj) {
+    const favs = getFavorites();
+    if (!favs.some(f => f.name === obj.name)) {
+      favs.push(obj);
+      saveFavorites(favs);
+    }
+  }
+
+  function removeFavoriteByName(name) {
+    let favs = getFavorites();
+    favs = favs.filter(f => f.name !== name);
+    saveFavorites(favs);
+  }
+
+  function carregarJogos() {
+    const jogosGrid = document.getElementById('jogosGrid');
+    
+    fetch('jogos.json')
+      .then(response => response.json())
+      .then(jogos => {
+        jogosGrid.innerHTML = '';
+        
+        jogos.forEach(jogo => {
+          const card = document.createElement('div');
+          card.className = 'jogo-card';
+          
+          const isFav = isFavoriteByName(jogo.title);
+          
+          card.innerHTML = `
+            <button class="favorite-btn">
+              <img src="${isFav ? STAR_ON : STAR_OFF}" alt="estrela favorito">
+            </button>
+            <span class="jogo-title">${jogo.title}</span>
+            <a href="${jogo.link}" target="_blank">
+              <img src="${jogo.image}" alt="${jogo.title}">
+            </a>
+          `;
+          
+          if (isFav) {
+            card.classList.add('favorito');
+          }
+          
+          const btn = card.querySelector('.favorite-btn');
+          const img = btn.querySelector('img');
+          
+          btn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+
+            const currentlyFav = isFavoriteByName(jogo.title);
+            if (currentlyFav) {
+              img.src = STAR_OFF;
+              card.classList.remove('favorito');
+              removeFavoriteByName(jogo.title);
+            } else {
+              img.src = STAR_ON;
+              card.classList.add('favorito');
+              addFavorite({ 
+                name: jogo.title, 
+                thumbnail: jogo.image,
+                link: jogo.link 
+              });
+            }
+          });
+          
+          jogosGrid.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao carregar jogos.json:', err);
+        jogosGrid.innerHTML = '<p>Erro ao carregar os jogos. Verifique se o arquivo jogos.json existe.</p>';
+      });
+  }
+
+  window.addEventListener("load", () => {
+    try {
+      const fotoSalva = localStorage.getItem("fotoPerfil");
+      if (fotoSalva && fotoPerfil) fotoPerfil.src = fotoSalva;
+    } catch(e){}
+
+    try {
+      const nomeSalvo = localStorage.getItem("nomeUsuario");
+      if (nomeSalvo) {
+        atualizarNome(nomeSalvo);
+        if (inputNome) inputNome.value = nomeSalvo;
+      }
+    } catch(e){}
+
+    try {
+      const temaSalvo = localStorage.getItem("tema");
+      if (temaSalvo === "azul") {
+        document.body.classList.add("tema-azul");
+        if (btnTemaAzul) btnTemaAzul.classList.add("ativo");
+        if (btnTemaVermelho) btnTemaVermelho.classList.remove("ativo");
+      } else {
+        document.body.classList.remove("tema-azul");
+        if (btnTemaVermelho) btnTemaVermelho.classList.add("ativo");
+        if (btnTemaAzul) btnTemaAzul.classList.remove("ativo");
+      }
+    } catch(e){}
+
+    carregarJogos();
+  });
+  </script>
+</body>
+</html>

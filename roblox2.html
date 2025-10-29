@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>(✦) Início - Roblox 2</title>
+
+  <style>
+    :root {
+      --cor-primaria: rgb(235,16,16);
+      --cor-secundaria: rgb(54,1,17);
+      --cor-barra: rgb(58,0,0);
+      --cor-barra-escura: rgb(14,0,0);
+      --cor-barra-cima: rgb(71,5,5);
+      --cor-categoria: rgb(180, 0, 0);
+      --cor-categoria-escura: rgb(97, 0, 0);
+      --cor-categoria-hover: rgb(255, 0, 0);
+      --cor-categoria-hover-escura: rgb(136, 0, 0);
+      --cor-nome: rgb(255, 72, 72);
+      --cor-texto: #fff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS";
+      background: radial-gradient(circle at 10% 10%, var(--cor-primaria), var(--cor-secundaria) 60%);
+      color: var(--cor-texto);
+      min-height: 100vh;
+      transition: background 0.5s ease;
+    }
+
+    .tema-azul {
+      --cor-primaria: rgb(16, 20, 235);
+      --cor-secundaria: rgb(21, 1, 54);
+      --cor-barra: rgb(1, 0, 58);
+      --cor-barra-escura: rgb(1, 0, 14);
+      --cor-barra-cima: rgb(6, 5, 71);
+      --cor-categoria: rgb(12, 0, 180);
+      --cor-categoria-escura: rgb(10, 0, 97);
+      --cor-categoria-hover: rgb(98, 0, 255);
+      --cor-categoria-hover-escura: rgb(63, 0, 136);
+      --cor-nome: rgb(127, 72, 255);
+      --cor-texto: #fff;
+    }
+
+    .barra {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, var(--cor-barra), var(--cor-barra-escura));
+      border-radius: 20px;
+      padding: 16px 16px;
+      margin: 12px;
+      position: relative;
+    }
+
+    .logo {
+      height: 68px;
+      width: auto;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      margin-top: -34px;
+      display: block;
+      user-select: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .tema-azul .logo {
+      filter: hue-rotate(220deg);
+    }
+
+    .opcoes {
+      height: 50px;
+      width: auto;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      margin-top: -25px;
+      display: block;
+      user-select: none;
+    }
+
+    .opcoes:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .titulo-site {
+      font-weight: bold;
+      font-size: 40px;
+      color: var(--cor-texto);
+      text-decoration: none;
+    }
+
+    .barracima {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, var(--cor-barra-cima), var(--cor-barra-escura));
+      border-radius: 20px;
+      margin: 0 12px 12px 12px;
+      padding: 10px;
+    }
+
+    .barracima .texto {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 0 12px 40px 12px;
+    }
+
+    .barralateral {
+      width: 250px;
+      min-height: 65vh;
+      border-radius: 20px;
+      background: linear-gradient(to bottom, var(--cor-barra-cima), var(--cor-barra-escura));
+      padding: 10px;
+      flex-shrink: 0;
+    }
+
+    .categoria {
+      background: radial-gradient(circle at center, var(--cor-categoria), var(--cor-categoria-escura) 90%);
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 10px;
+      padding: 8px;
+      background-size: 150%;
+      background-position: center;
+      transition: background-position 0.4s ease, transform 0.2s ease;
+    }
+
+    .categoria:hover {
+      background: radial-gradient(circle at center, var(--cor-categoria-hover), var(--cor-categoria-hover-escura) 90%);
+      background-position: left;
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    .categoria a {
+      color: var(--cor-texto);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      margin-top: 4px;
+    }
+
+    h1 {
+      color: var(--cor-texto);
+      font-size: 28px;
+      margin: 0 0 8px 0;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    p {
+      color: var(--cor-texto);
+      font-size: 18px;
+      margin-top: 6px;
+      line-height: 1.4;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    a {
+      color: var(--cor-texto);
+      text-decoration: none;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    dialog {
+      border: none;
+      border-radius: 15px;
+      background: radial-gradient(circle at top, var(--cor-categoria), var(--cor-categoria-escura));
+      color: var(--cor-texto);
+      padding: 20px 30px;
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      animation: aparecer 0.3s ease;
+    }
+
+    @keyframes aparecer {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+    }
+
+    .fechar {
+      margin-top: 15px;
+      background: rgb(255, 0, 0);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .fechar:hover {
+      background: rgb(143, 0, 0);
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    .ola {
+      font-size: 30px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nome {
+      color: var(--cor-texto);
+    }
+
+    .jogos {
+      margin-top: 20px;
+      background-color: blue;
+    }
+
+    .perfil img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 10px;
+      border: 2px solid var(--cor-texto);
+      object-fit: cover;
+      cursor: pointer;
+      background-color: #d4d4d4;
+      transition: transform 0.3s, border 0.3s;
+    }
+
+    .perfil img:hover {
+      transform: scale(1.02);
+      border: 2px solid black;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .opcoes-container {
+      display: flex;
+      flex-direction: column;
+      width: 50vh;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .opcao-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .btn-tema {
+      background: linear-gradient(to right, #666, #999);
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .btn-tema.vermelho.ativo {
+      background: linear-gradient(to right, #ff4444, #cc0000);
+    }
+
+    .btn-tema.azul.ativo {
+      background: linear-gradient(to right, rgb(12, 0, 180), rgb(10, 0, 97));
+    }
+
+    .input-nome {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 16px;
+      color: #333;
+      width: 100px;
+    }
+
+    .btn-alterar-foto {
+      background: linear-gradient(to bottom, var(--cor-categoria), var(--cor-categoria-escura));
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-alterar-foto:hover {
+      background: linear-gradient(to bottom, var(--cor-categoria-hover), var(--cor-categoria-hover-escura));
+      transform: scale(1.05);
+    }
+
+    .sobre-container {
+      display: flex;
+      flex-direction: column;
+      width: 50vh;
+      margin: 15px 0;
+    }
+
+    .sobre-desc {
+      align-items: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .sobre-desc a {
+      color: var(--cor-texto);
+      font-size: 18px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="barra">
+    <a href="roblox2.html" title="Voltar ao Início">
+      <img class="logo" src="https://imguh.com/images/2025/10/27/image3f677ebe564bc6c1.png">
+    </a>
+    <img class="opcoes" src="https://icon-library.com/images/menu-icon-png-3-lines/menu-icon-png-3-lines-5.jpg" id="btnOpcoes">
+    <div class="titulo-site">Roblox 2</div>
+  </header>
+
+  <div class="barracima">
+    <div class="texto">(✦) Início</div>
+  </div>
+
+  <div class="container">
+    <aside class="barralateral" aria-label="Barra lateral">
+      <div class="categoria inicio">
+        <a href="roblox2.html">Início</a>
+      </div>
+      <div class="categoria descubra">
+        <a href="descubra.html">Descubra</a>
+      </div>
+      <div class="categoria perfil">
+        <a href="perfil.html">Perfil</a>
+      </div>
+      <div class="categoria catalogo">
+        <a href="catalog.html">Catálogo</a>
+      </div>
+      <div class="categoria sobre">
+        <a id="btnSobre">Sobre</a>
+      </div>
+    </aside>
+    <main>
+      <h1 style="padding-bottom: 10px">
+        <a class="perfil" href="javascript:void(0)" title="Clique para alterar a foto" id="btnAlterarFoto">
+          <img src="https://i.pinimg.com/474x/f7/b6/d8/f7b6d8e6d9832bf94a792fce74c28d64.jpg" id="fotoPerfil">
+        </a>
+        <span class="ola">
+          Olá, 
+          <span contenteditable="true" class="nome" id="nomeUsuario">Usuário</span>!
+        </span>
+      </h1>
+      <p>
+        Bem-vindo(a) ao Roblox 2, uma versão alternativa do Roblox criada para proporcionar uma experiência nostálgica e divertida.
+      </p>
+      <h1>
+
+      </h1>
+    </main>
+  </div>
+
+  <input type="file" id="inputFoto" class="file-input" accept="image/*">
+
+  <dialog id="popupOpcoes">
+    <h2>⚙️ Opções</h2>
+    
+    <div class="opcoes-container">
+      <div class="opcao-item">
+        <span>Alterar Nome:</span>
+        <input type="text" class="input-nome" id="inputNome" placeholder="Digite seu nome">
+      </div>
+      
+      <div class="opcao-item">
+        <span>Alterar Foto:</span>
+        <button class="btn-alterar-foto" id="btnAlterarFotoOpcoes">Escolher Foto</button>
+      </div>
+      
+      <div class="opcao-item">
+        <span>Tema de Cor:</span>
+        <div>
+          <button class="btn-tema vermelho ativo" id="btnTemaVermelho">Vermelho</button>
+          <button class="btn-tema azul" id="btnTemaAzul">Azul</button>
+        </div>
+      </div>
+    </div>
+    
+    <button class="fechar" id="btnFecharOpcoes">Fechar</button>
+  </dialog>
+
+   <dialog id="popupSobre">
+    <h2>👥 Sobre</h2>
+    
+    <div class="sobre-container">
+      <div class="sobre-desc">
+        <a>Criado por Kevin, Joabe, Matheus Barboza e Hugo</a>
+      </div>
+    </div>
+    
+    <button class="fechar" id="btnFecharSobre">Fechar</button>
+  </dialog>
+
+
+  <script>
+    const inputFoto = document.getElementById("inputFoto");
+    const btnAlterarFoto = document.getElementById("btnAlterarFoto");
+    const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
+    const fotoPerfil = document.getElementById("fotoPerfil");
+
+    const nomeUsuario = document.getElementById("nomeUsuario");
+    const inputNome = document.getElementById("inputNome");
+
+    const btnTemaVermelho = document.getElementById("btnTemaVermelho");
+    const btnTemaAzul = document.getElementById("btnTemaAzul");
+
+    const popup = document.getElementById("popupOpcoes");
+    const btn = document.getElementById("btnOpcoes");
+    const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
+
+    btnAlterarFoto.addEventListener("click", () => {
+      inputFoto.click();
+    });
+
+    btnAlterarFotoOpcoes.addEventListener("click", () => {
+      inputFoto.click();
+    });
+
+    inputFoto.addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          fotoPerfil.src = e.target.result;
+          localStorage.setItem('fotoPerfil', e.target.result);
+        }
+        
+        reader.readAsDataURL(file);
+      }
+    });
+
+    nomeUsuario.addEventListener('input', function() {
+      localStorage.setItem('nomeUsuario', this.textContent);
+    });
+
+    inputNome.addEventListener('input', function() {
+      const novoNome = this.value.trim();
+      if (novoNome) {
+        nomeUsuario.textContent = novoNome;
+        localStorage.setItem('nomeUsuario', novoNome);
+      }
+    });
+
+    btnTemaVermelho.addEventListener('click', function() {
+      document.body.classList.remove('tema-azul');
+      btnTemaVermelho.classList.add('ativo');
+      btnTemaAzul.classList.remove('ativo');
+      localStorage.setItem('tema', 'vermelho');
+    });
+
+    btnTemaAzul.addEventListener('click', function() {
+      document.body.classList.add('tema-azul');
+      btnTemaAzul.classList.add('ativo');
+      btnTemaVermelho.classList.remove('ativo');
+      localStorage.setItem('tema', 'azul');
+    });
+
+    window.addEventListener('load', () => {
+      const fotoSalva = localStorage.getItem('fotoPerfil');
+      if (fotoSalva) {
+        fotoPerfil.src = fotoSalva;
+      }
+
+      const nomeSalvo = localStorage.getItem('nomeUsuario');
+      if (nomeSalvo) {
+        nomeUsuario.textContent = nomeSalvo;
+        inputNome.value = nomeSalvo;
+      }
+
+      const temaSalvo = localStorage.getItem('tema');
+      if (temaSalvo === 'azul') {
+        document.body.classList.add('tema-azul');
+        btnTemaAzul.classList.add('ativo');
+        btnTemaVermelho.classList.remove('ativo');
+      } else {
+        document.body.classList.remove('tema-azul');
+        btnTemaVermelho.classList.add('ativo');
+        btnTemaAzul.classList.remove('ativo');
+      }
+    });
+
+    btn.addEventListener("click", () => {
+      inputNome.value = nomeUsuario.textContent;
+      popup.showModal();
+    });
+    
+    btnFecharOpcoes.addEventListener("click", () => popup.close());
+
+    const popup2 = document.getElementById("popupSobre");
+    const btn2 = document.getElementById("btnSobre");
+    const btnFecharSobre = document.getElementById("btnFecharSobre");
+
+    btn2.addEventListener("click", () => {
+      popup2.showModal();
+    });
+
+    btnFecharSobre.addEventListener("click", () => popup2.close());
+  </script>
+</body>
+</html>
