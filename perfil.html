@@ -471,11 +471,32 @@
 
     .linha-vertical {
         width: 1px;
-        background-color: white;
+        background-color: gray;
         margin-top: 30px;
         border-radius: 1px;
         align-self: stretch;
         height: auto;
+    }
+
+    .secao {
+      width: 80%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .secao h3 {
+      margin-top: 0;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+
+    .descricao {
+      border-radius: 12px;
+      padding: 10px;
     }
   </style>
 </head>
@@ -522,7 +543,12 @@
         </span>
       </h1>
 
-      <p style="padding-bottom: 10px">Essa é a conta oficial de <span class="nome" id="nomeUsuario2">Usuário</span> no Roblox 2.</p>
+      <div class="secao">
+      <h3>Descrição</h3>
+      <div class="descricao">
+        <span contenteditable="true" id="descricao">Essa é a conta oficial de <span class="nome" id="nomeUsuario2">Usuário</span> no Roblox 2.</span>
+      </div>
+    </div>
 
       <div class="like" aria-label="Curtir perfil">
         <img
@@ -582,6 +608,8 @@
     const arrobaUsuario = document.getElementById("arrobaUsuario");
     const inputNome = document.getElementById("inputNome");
 
+    const descricao = document.getElementById("descricao");
+
     const btnTemaVermelho = document.getElementById("btnTemaVermelho");
     const btnTemaAzul = document.getElementById("btnTemaAzul");
 
@@ -598,6 +626,8 @@
     const FOLLOW_KEY = "seguido";
 
     const STORAGE_KEY = "favoritosJogos";
+
+    const DEFAULT_DESC_TEMPLATE = 'Essa é a conta oficial de {name} no Roblox 2.';
 
     function setLikeState(isLiked, save = true) {
       likeIcon.classList.toggle("liked", !!isLiked);
@@ -657,19 +687,42 @@
     });
 
     function atualizarNome(novoNome) {
-      nomeUsuario.textContent = novoNome;
+      if (document.activeElement !== nomeUsuario) {
+        nomeUsuario.textContent = novoNome;
+      }
+
       nomeUsuario2.textContent = novoNome;
       arrobaUsuario.textContent = novoNome.toLowerCase().replace(/\s+/g, "");
       localStorage.setItem("nomeUsuario", novoNome);
+
+      let descricaoAtual = descricao.innerHTML.trim();
+
+      if (
+        descricaoAtual.includes("Essa é a conta oficial de") ||
+        descricaoAtual.includes(nomeUsuario2.textContent)
+      ) {
+        const novoHTML = `Essa é a conta oficial de <span class="nome" id="nomeUsuario2">${novoNome}</span> no Roblox 2.`;
+        atualizarDescricao(novoHTML);
+      }
     }
 
     nomeUsuario.addEventListener("input", function() {
-      atualizarNome(this.textContent);
+      const novo = this.textContent.trim() || "Usuário";
+      atualizarNome(novo);
     });
-
     inputNome.addEventListener("input", function() {
       const novoNome = this.value.trim();
       if (novoNome) atualizarNome(novoNome);
+    });
+
+    function atualizarDescricao(novaDescricaoHTML, save = true) {
+      descricao.innerHTML = novaDescricaoHTML;
+      if (save) localStorage.setItem("usuarioDescricao", novaDescricaoHTML);
+    }
+
+    descricao.addEventListener("input", function() {
+      const current = this.innerHTML;
+      localStorage.setItem("usuarioDescricao", current);
     });
 
     btnTemaVermelho.addEventListener("click", function() {
@@ -686,7 +739,8 @@
       localStorage.setItem("tema", "azul");
     });
 
-    btnOpcoes.addEventListener("click", () => {
+    const btnOpcoesEl = document.getElementById("btnOpcoes");
+    btnOpcoesEl?.addEventListener("click", () => {
       inputNome.value = nomeUsuario.textContent;
       popup.showModal();
     });
@@ -714,41 +768,41 @@
     function carregarJogosFavoritos() {
       const favoritosGrid = document.getElementById('favoritosGrid');
       const semFavoritosMsg = document.getElementById('semFavoritosMsg');
-      
+
       const favoritos = getFavorites();
-      
+
       if (favoritos.length === 0) {
         semFavoritosMsg.style.display = 'block';
         favoritosGrid.innerHTML = '';
         return;
       }
-      
+
       semFavoritosMsg.style.display = 'none';
       favoritosGrid.innerHTML = '';
-      
+
       favoritos.forEach(jogo => {
         const card = document.createElement('div');
         card.className = 'jogo-favorito-card';
-        
+
         card.innerHTML = `
           <button class="remover-favorito" title="Remover dos favoritos">✖</button>
           <img src="${jogo.thumbnail}" alt="${jogo.name}" onerror="this.src='https://via.placeholder.com/200x100/333/fff?text=Imagem+Não+Encontrada'">
           <div class="jogo-favorito-title">${jogo.name}</div>
         `;
-        
+
         const btnRemover = card.querySelector('.remover-favorito');
         btnRemover.addEventListener('click', (ev) => {
           ev.stopPropagation();
           const novosFavoritos = removeFavoriteByName(jogo.name);
           carregarJogosFavoritos();
         });
-        
+
         card.addEventListener('click', () => {
           if (jogo.link) {
             window.open(jogo.link, '_blank');
           }
         });
-        
+
         favoritosGrid.appendChild(card);
       });
     }
@@ -781,6 +835,16 @@
 
       const seguido = localStorage.getItem(FOLLOW_KEY) === "1";
       setFollowState(seguido, false);
+
+      const descSalva = localStorage.getItem("usuarioDescricao");
+      if (descSalva) {
+        descricao.innerHTML = descSalva;
+      } else {
+        const nomeAtual = nomeSalvo || nomeUsuario.textContent || "Usuário";
+        const defaultHTML = `Essa é a conta oficial de <span class="nome" id="nomeUsuario2">${nomeAtual}</span> no Roblox 2.`;
+        descricao.innerHTML = defaultHTML;
+        localStorage.setItem("usuarioDescricao", defaultHTML);
+      }
 
       carregarJogosFavoritos();
     });
