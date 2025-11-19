@@ -132,6 +132,7 @@ body {
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 0 15px var(--cor-box-shadow);
+  position: relative;
 }
 
 .item-card img {
@@ -162,6 +163,14 @@ body {
 .item-card:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px var(--cor-box-shadow-hover);
+}
+
+.limited-overlay {
+  position: absolute;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
 }
 
 dialog {
@@ -321,9 +330,10 @@ dialog::backdrop {
 
   const catalogo = document.getElementById("catalogo");
 
-  function formatPrice(num) {
+    function formatPrice(num) {
     if (num === -1) return `<span style="color: rgb(150,150,150);">Indisponível</span>`;
     if (num === 0) return "Free";
+    
     return Number(num).toLocaleString('pt-BR');
   }
 
@@ -336,11 +346,14 @@ dialog::backdrop {
 
   inputFoto.addEventListener("change", function(e) {
     const file = e.target.files?.[0];
+
     if (file) {
       const reader = new FileReader();
+
       reader.onload = ev => {
         try { localStorage.setItem('fotoPerfil', ev.target.result); } catch {}
       };
+
       reader.readAsDataURL(file);
     }
   });
@@ -354,22 +367,24 @@ dialog::backdrop {
     document.body.classList.remove('tema-azul');
     btnTemaVermelho.classList.add('ativo');
     btnTemaAzul.classList.remove('ativo');
-    try { localStorage.setItem('tema', 'vermelho'); } catch {}
 
+    try { localStorage.setItem('tema', 'vermelho'); } catch {}
     atualizarHueLogo();
+
   });
 
   btnTemaAzul.addEventListener("click", () => {
     document.body.classList.add('tema-azul');
     btnTemaAzul.classList.add('ativo');
     btnTemaVermelho.classList.remove('ativo');
-    try { localStorage.setItem('tema', 'azul'); } catch {}
 
+    try { localStorage.setItem('tema', 'azul'); } catch {}
     atualizarHueLogo();
   });
 
   btn.addEventListener("click", () => {
     const nomeSalvo = localStorage.getItem('nomeUsuario') || "";
+
     inputNome.value = nomeSalvo;
 
     if (typeof popup.showModal === "function") popup.showModal();
@@ -383,39 +398,48 @@ dialog::backdrop {
 
   fetch("items.json")
     .then(r => r.json())
+
     .then(items => {
       items.forEach(item => {
         const card = document.createElement("div");
         card.className = "item-card";
 
         const precoHTML = item.price === -1
+
           ? `<div class="price" style="color: rgb(150,150,150);">Indisponível</div>`
           : `<div class="price">R$ ${formatPrice(item.price)}</div>`;
 
         const tituloCortado = cortarTitulo(item.title);
 
+        let overlayHTML = '';
+
+        if (item.limited) {
+          overlayHTML = `<img class="limited-overlay" src="https://imguh.com/images/2025/11/19/imaged047625846405e4a.png" alt="Limited">`;
+        }
+
         card.innerHTML = `
           <img src="${item.image}">
+          ${overlayHTML}
           <div class="title" title="${item.title}">${tituloCortado}</div>
           ${precoHTML}
         `;
 
-    card.addEventListener("click", () => {
-      if (item.price === -1) {
-        const priceDiv = card.querySelector(".price");
+        card.addEventListener("click", () => {
+          if (item.price === -1) {
+            const priceDiv = card.querySelector(".price");
+            card.style.boxShadow = "0 0 15px red";
+            priceDiv.style.color = "red";
 
-        card.style.boxShadow = "0 0 15px red";
-        priceDiv.style.color = "red";
+            setTimeout(() => {
+              card.style.boxShadow = "";
+              priceDiv.style.color = "rgb(150,150,150)";
+            }, 250);
 
-        setTimeout(() => {
-          card.style.boxShadow = "";
-          priceDiv.style.color = "rgb(150,150,150)";
-        }, 250);
+          } else {
+            window.open(item.link, "_blank");
+          }
+        });
 
-      } else {
-        window.open(item.link, "_blank");
-      }
-    });
         catalogo.appendChild(card);
       });
     });
@@ -427,21 +451,19 @@ dialog::backdrop {
       document.body.classList.add('tema-azul');
       btnTemaAzul.classList.add('ativo');
       btnTemaVermelho.classList.remove('ativo');
-
       atualizarHueLogo();
     }
   });
 
   function atualizarHueLogo() {
-  const logo = document.querySelector(".logo");
-  const tema = localStorage.getItem("tema");
-
-  if (tema === "azul") {
-    logo.style.filter = "hue-rotate(240deg) saturate(1.4)";
-  } else {
-    logo.style.filter = "hue-rotate(0deg)";
+    const logo = document.querySelector(".logo");
+    const tema = localStorage.getItem("tema");
+    if (tema === "azul") {
+      logo.style.filter = "hue-rotate(240deg) saturate(1.4)";
+    } else {
+      logo.style.filter = "hue-rotate(0deg)";
+    }
   }
-}
 </script>
 
 </body>
