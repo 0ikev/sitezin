@@ -400,7 +400,7 @@
     <button class="fechar" id="btnFecharOpcoes">Fechar</button>
   </dialog>
 
-    <script>
+<script>
   const inputFoto = document.getElementById("inputFoto");
   const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
   const fotoPerfil = document.getElementById("fotoPerfil");
@@ -422,6 +422,7 @@
 
   const STORAGE_KEY = "favoritosJogos";
 
+
   function atualizarNome(novoNome) {
     if (!novoNome) return;
     if (nomeUsuario) nomeUsuario.textContent = novoNome;
@@ -429,6 +430,7 @@
     if (arrobaUsuario) arrobaUsuario.textContent = novoNome.toLowerCase().replace(/\s+/g, "");
     try { localStorage.setItem("nomeUsuario", novoNome); } catch(e) {}
   }
+
 
   if (btnAlterarFotoOpcoes && inputFoto) {
     btnAlterarFotoOpcoes.addEventListener("click", () => inputFoto.click());
@@ -461,6 +463,7 @@
     });
   }
 
+
   if (btnTemaVermelho) {
     btnTemaVermelho.addEventListener("click", function() {
       document.body.classList.remove("tema-azul");
@@ -478,6 +481,7 @@
       try { localStorage.setItem("tema", "azul"); } catch(e) {}
     });
   }
+
 
   if (btnOpcoes && popup) {
     btnOpcoes.addEventListener("click", () => {
@@ -508,36 +512,30 @@
       if (!raw) return [];
       return JSON.parse(raw);
     } catch (e) {
-      console.error("Erro lendo favoritos:", e);
       return [];
     }
   }
 
   function saveFavorites(arr) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    } catch (e) {
-      console.error("Erro salvando favoritos:", e);
-    }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e){}
   }
 
-  function isFavoriteByName(name) {
-    const favs = getFavorites();
-    return favs.some(f => f.name === name);
+  function isFavorite(id) {
+    return getFavorites().includes(String(id));
   }
 
-  function addFavorite(obj) {
+  function addFavorite(id) {
+    id = String(id);
     const favs = getFavorites();
-    if (!favs.some(f => f.name === obj.name)) {
-      favs.push(obj);
+    if (!favs.includes(id)) {
+      favs.push(id);
       saveFavorites(favs);
     }
   }
 
-  function removeFavoriteByName(name) {
-    let favs = getFavorites();
-    favs = favs.filter(f => f.name !== name);
-    saveFavorites(favs);
+  function removeFavorite(id) {
+    id = String(id);
+    saveFavorites(getFavorites().filter(f => f !== id));
   }
 
   function carregarJogos() {
@@ -549,10 +547,11 @@
         jogosGrid.innerHTML = '';
         
         jogos.forEach(jogo => {
+
+          const isFav = isFavorite(jogo.id);
+
           const card = document.createElement('div');
           card.className = 'jogo-card';
-          
-          const isFav = isFavoriteByName(jogo.title);
           
           card.innerHTML = `
             <button class="favorite-btn">
@@ -563,34 +562,23 @@
               <img src="${jogo.image}" alt="${jogo.title}">
             </a>
           `;
-          
-          if (isFav) {
-            card.classList.add('favorito');
-          }
-          
+
           const btn = card.querySelector('.favorite-btn');
           const img = btn.querySelector('img');
-          
+
           btn.addEventListener('click', (ev) => {
             ev.stopPropagation();
             ev.preventDefault();
 
-            const currentlyFav = isFavoriteByName(jogo.title);
-            if (currentlyFav) {
+            if (isFavorite(jogo.id)) {
+              removeFavorite(jogo.id);
               img.src = STAR_OFF;
-              card.classList.remove('favorito');
-              removeFavoriteByName(jogo.title);
             } else {
+              addFavorite(jogo.id);
               img.src = STAR_ON;
-              card.classList.add('favorito');
-              addFavorite({ 
-                name: jogo.title, 
-                thumbnail: jogo.image,
-                link: jogo.link 
-              });
             }
           });
-          
+
           jogosGrid.appendChild(card);
         });
       })
@@ -629,6 +617,6 @@
 
     carregarJogos();
   });
-  </script>
+</script>
 </body>
 </html>
