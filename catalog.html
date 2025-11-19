@@ -6,7 +6,6 @@
 <title>Catálogo Roblox 2</title>
 
 <style>
-  
 :root {
   --cor-primaria: rgb(235,16,16);
   --cor-secundaria: rgb(54,1,17);
@@ -76,7 +75,6 @@ body {
 .logo:hover {
   transform: scale(1.05);
   transition: transform 0.3s;
-  cursor: pointer;
 }
 
 .barracima {
@@ -102,19 +100,17 @@ body {
 
 .opcoes {
   height: 50px;
-  width: auto;
   position: absolute;
   right: 20px;
   top: 50%;
   margin-top: -25px;
-  display: block;
+  cursor: pointer;
   user-select: none;
+  transition: 0.3s;
 }
 
 .opcoes:hover {
   transform: scale(1.05);
-  transition: transform 0.3s;
-  cursor: pointer;
 }
 
 .catalogo {
@@ -136,14 +132,11 @@ body {
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 0 15px var(--cor-box-shadow);
-  flex-shrink: 0;
 }
 
 .item-card img {
   width: 100%;
-  height: 100vhpx;
   object-fit: cover;
-  display: block;
 }
 
 .item-card .title {
@@ -152,7 +145,6 @@ body {
   padding: 10px 5px;
   text-align: center;
   min-height: 50px;
-  word-wrap: break-word;
   width: 100%;
 }
 
@@ -164,6 +156,7 @@ body {
   background-color: rgba(0, 0, 0, 0.281);
   padding: 5px 10px;
   border-radius: 8px;
+  transition: color 0.3s ease;
 }
 
 .item-card:hover {
@@ -171,56 +164,48 @@ body {
   box-shadow: 0 0 15px var(--cor-box-shadow-hover);
 }
 
+dialog {
+  border: none;
+  border-radius: 15px;
+  background: radial-gradient(circle at top, var(--cor-categoria), var(--cor-categoria-escura));
+  color: var(--cor-texto);
+  padding: 20px 30px;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
+}
+
 .fechar {
-  align-self: center;
-  margin-top: 10px;
-  background: rgb(255,0,0);
+  margin-top: 15px;
+  background: rgb(255, 0, 0);
   border: none;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .fechar:hover {
-  background: rgb(143,0,0);
+  background: rgb(143, 0, 0);
   transform: scale(1.02);
 }
 
-@keyframes aparecer {
-  from {
-    transform: scale(0.8);
-    opacity: 0
-  } to {
-    transform: scale(1);
-    opacity: 1
-  }
+.file-input {
+  display: none;
 }
 
-dialog#popupOpcoes { 
-  border: none;
-  border-radius: 15px;
-  padding: 20px 30px;
-  font-size: 18px;
-  background: radial-gradient(circle at top, var(--cor-categoria), var(--cor-categoria-escura));
-  color: var(--cor-texto);
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  animation: aparecer 0.3s ease;
-  width: 50vh;
-}
-
-dialog#popupOpcoes::backdrop {
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(2px);
-}
-
-.opcoes-container-popup {
+.opcoes-container {
   display: flex;
   flex-direction: column;
-  gap:10px;
-  margin:20px 0;
+  width: 50vh;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .opcao-item {
@@ -228,12 +213,32 @@ dialog#popupOpcoes::backdrop {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
 }
 
+.btn-tema {
+  background: linear-gradient(to right, #666, #999);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-left: 5px;
+}
+
+.btn-tema.vermelho.ativo {
+  background: linear-gradient(to right, #ff4444, #cc0000);
+}
+
+.btn-tema.azul.ativo {
+  background: linear-gradient(to right, rgb(12, 0, 180), rgb(10, 0, 97));
+}
+
 .input-nome {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border: 2px solid #ccc;
   border-radius: 8px;
   padding: 8px 10px;
@@ -250,42 +255,11 @@ dialog#popupOpcoes::backdrop {
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
 }
 
 .btn-alterar-foto:hover {
   background: linear-gradient(to bottom, var(--cor-categoria-hover), var(--cor-categoria-hover-escura));
   transform: scale(1.05);
-}
-
-.btn-tema-popup {
-  background: linear-gradient(to right,#666,#999);
-  border:none;
-  color:white;
-  padding:8px 12px;
-  border-radius:20px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:all 0.3s ease;
-  margin-left:5px;
-}
-
-.btn-tema-popup.vermelho.ativo {
-  background: linear-gradient(to right, #ff4444, #cc0000);
-}
-
-.btn-tema-popup.azul.ativo {
-  background: linear-gradient(to right, rgb(12,0,180), rgb(10,0,97));
-}
-
-.item-card.erro-click {
-  box-shadow: 0 0 20px red;
-  transition: box-shadow 0.2s ease;
-}
-
-.item-card.erro-click .texto-indisponivel {
-  color: red !important;
-  transition: color 0.2s ease;
 }
 </style>
 </head>
@@ -297,114 +271,178 @@ dialog#popupOpcoes::backdrop {
   <img class="opcoes" src="https://icon-library.com/images/menu-icon-png-3-lines/menu-icon-png-3-lines-5.jpg" id="btnOpcoes" alt="opções">
 </header>
 
-  <div class="barracima">
-    <div class="texto">(✿) Catálogo</div>
-  </div>
+<div class="barracima">
+  <div class="texto">(✿) Catálogo</div>
+</div>
 
 <main>
   <div class="catalogo" id="catalogo"></div>
 </main>
 
+<input type="file" id="inputFoto" class="file-input" accept="image/*">
+
 <dialog id="popupOpcoes">
-  <h2>⚙️ Opções</h2>
-  <div class="opcoes-container-popup">
-    <div class="opcao-item">
-      <span>Alterar Nome:</span>
-      <input type="text" class="input-nome" id="inputNome" placeholder="Digite seu nome">
-    </div>
-    <div class="opcao-item">
-      <span>Alterar Foto:</span>
-      <button class="btn-alterar-foto" id="btnAlterarFotoOpcoes">Escolher Foto</button>
-    </div>
-    <div class="opcao-item">
-      <span>Tema de Cor:</span>
-      <div>
-        <button class="btn-tema-popup vermelho" id="btnTemaVermelhoPopup">Vermelho</button>
-        <button class="btn-tema-popup azul" id="btnTemaAzulPopup">Azul</button>
+    <h2>⚙️ Opções</h2>
+    
+    <div class="opcoes-container">
+      <div class="opcao-item">
+        <span>Alterar Nome:</span>
+        <input type="text" class="input-nome" id="inputNome" placeholder="Digite seu nome">
+      </div>
+      
+      <div class="opcao-item">
+        <span>Alterar Foto:</span>
+        <button class="btn-alterar-foto" id="btnAlterarFotoOpcoes" type="button">Escolher Foto</button>
+      </div>
+      
+      <div class="opcao-item">
+        <span>Tema de Cor:</span>
+        <div>
+          <button class="btn-tema vermelho ativo" id="btnTemaVermelho">Vermelho</button>
+          <button class="btn-tema azul" id="btnTemaAzul">Azul</button>
+        </div>
       </div>
     </div>
-  </div>
-  <button class="fechar" id="btnFecharOpcoes">Fechar</button>
+    
+    <button class="fechar" id="btnFecharOpcoes">Fechar</button>
 </dialog>
 
 <script>
-const btnTemaVermelhoPopup = document.getElementById("btnTemaVermelhoPopup");
-const btnTemaAzulPopup = document.getElementById("btnTemaAzulPopup");
-const temaSalvo = localStorage.getItem("tema");
-if(temaSalvo==="azul"){document.body.classList.add("tema-azul"); btnTemaAzulPopup.classList.add("ativo");} 
-else {btnTemaVermelhoPopup.classList.add("ativo");}
-function setTema(tema){
-  if(tema==="azul"){document.body.classList.add("tema-azul"); btnTemaAzulPopup.classList.add("ativo"); btnTemaVermelhoPopup.classList.remove("ativo");}
-  else {document.body.classList.remove("tema-azul"); btnTemaVermelhoPopup.classList.add("ativo"); btnTemaAzulPopup.classList.remove("ativo");}
-  localStorage.setItem("tema",tema);
-}
-btnTemaVermelhoPopup.addEventListener("click",()=>setTema("vermelho"));
-btnTemaAzulPopup.addEventListener("click",()=>setTema("azul"));
+  const inputFoto = document.getElementById("inputFoto");
+  const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
+  const inputNome = document.getElementById("inputNome");
 
-const btnOpcoes = document.getElementById("btnOpcoes");
-const popupOpcoes = document.getElementById("popupOpcoes");
-const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
-const inputNome = document.getElementById("inputNome");
+  const btnTemaVermelho = document.getElementById("btnTemaVermelho");
+  const btnTemaAzul = document.getElementById("btnTemaAzul");
 
-btnOpcoes.addEventListener("click",()=>{
-  if(inputNome) inputNome.value=localStorage.getItem("nomeUsuario")||"";
-  try{if(typeof popupOpcoes.showModal==="function") popupOpcoes.showModal(); else popupOpcoes.style.display="block";} catch(e){popupOpcoes.style.display="block";}
-});
-btnFecharOpcoes.addEventListener("click",()=>{
-  try{if(typeof popupOpcoes.close==="function") popupOpcoes.close(); else popupOpcoes.style.display="none";} catch(e){popupOpcoes.style.display="none";}
-});
-inputNome.addEventListener("input",()=>{
-  const novo=inputNome.value.trim();
-  if(novo) localStorage.setItem("nomeUsuario",novo);
-});
+  const popup = document.getElementById("popupOpcoes");
+  const btn = document.getElementById("btnOpcoes");
+  const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
 
-const catalogo = document.getElementById("catalogo");
+  const catalogo = document.getElementById("catalogo");
 
-function formatPrice(num) {
-  if (num === -1) return `<span style="color: rgb(150,150,150);">Indisponível</span>`;
-  if (num === 0) return "Free";
-  return Number(num).toLocaleString('pt-BR');
-}
-
-function cortarTitulo(texto, limite = 41) {
-  if (texto.length > limite) {
-    return texto.slice(0, limite) + "..."; 
+  function formatPrice(num) {
+    if (num === -1) return `<span style="color: rgb(150,150,150);">Indisponível</span>`;
+    if (num === 0) return "Free";
+    return Number(num).toLocaleString('pt-BR');
   }
-  return texto;
-}
 
-fetch("items.json")
-  .then(r => r.json())
-  .then(items => {
-    items.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "item-card";
+  function cortarTitulo(texto, limite = 41) {
+    if (!texto) return "";
+    return texto.length > limite ? texto.slice(0, limite) + "..." : texto;
+  }
 
-      const precoHTML = item.price === -1
-        ? `<div class="price texto-indisponivel" style="color: rgb(150,150,150);">Indisponível</div>`
-        : `<div class="price">R$ ${formatPrice(item.price)}</div>`;
+  btnAlterarFotoOpcoes.addEventListener("click", () => inputFoto.click());
 
-      const tituloCortado = cortarTitulo(item.title);
+  inputFoto.addEventListener("change", function(e) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try { localStorage.setItem('fotoPerfil', ev.target.result); } catch {}
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
-      card.innerHTML = `
-        <img src="${item.image}" alt="${item.title}">
-        <div class="title" title="${item.title}">${tituloCortado}</div>
-        ${precoHTML}
-      `;
+  inputNome.addEventListener("input", function () {
+    const novoNome = this.value.trim();
+    try { localStorage.setItem('nomeUsuario', novoNome); } catch {}
+  });
 
-      card.addEventListener("click", () => {
-        if (item.price === -1) {
-          card.classList.add("erro-click");
-          setTimeout(() => card.classList.remove("erro-click"), 300);
-        } else {
-          window.open(item.link, "_blank");
-        }
-      });
+  btnTemaVermelho.addEventListener("click", () => {
+    document.body.classList.remove('tema-azul');
+    btnTemaVermelho.classList.add('ativo');
+    btnTemaAzul.classList.remove('ativo');
+    try { localStorage.setItem('tema', 'vermelho'); } catch {}
 
-      catalogo.appendChild(card);
+    atualizarHueLogo();
+  });
+
+  btnTemaAzul.addEventListener("click", () => {
+    document.body.classList.add('tema-azul');
+    btnTemaAzul.classList.add('ativo');
+    btnTemaVermelho.classList.remove('ativo');
+    try { localStorage.setItem('tema', 'azul'); } catch {}
+
+    atualizarHueLogo();
+  });
+
+  btn.addEventListener("click", () => {
+    const nomeSalvo = localStorage.getItem('nomeUsuario') || "";
+    inputNome.value = nomeSalvo;
+
+    if (typeof popup.showModal === "function") popup.showModal();
+    else popup.style.display = "block";
+  });
+
+  btnFecharOpcoes.addEventListener("click", () => {
+    if (typeof popup.close === "function") popup.close();
+    else popup.style.display = "none";
+  });
+
+  fetch("items.json")
+    .then(r => r.json())
+    .then(items => {
+      items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+
+        const precoHTML = item.price === -1
+          ? `<div class="price" style="color: rgb(150,150,150);">Indisponível</div>`
+          : `<div class="price">R$ ${formatPrice(item.price)}</div>`;
+
+        const tituloCortado = cortarTitulo(item.title);
+
+        card.innerHTML = `
+          <img src="${item.image}">
+          <div class="title" title="${item.title}">${tituloCortado}</div>
+          ${precoHTML}
+        `;
+
+    card.addEventListener("click", () => {
+      if (item.price === -1) {
+        const priceDiv = card.querySelector(".price");
+
+        card.style.boxShadow = "0 0 15px red";
+        priceDiv.style.color = "red";
+
+        setTimeout(() => {
+          card.style.boxShadow = "";
+          priceDiv.style.color = "rgb(150,150,150)";
+        }, 250);
+
+      } else {
+        window.open(item.link, "_blank");
+      }
     });
-  })
-  .catch(err => console.error("Erro ao carregar items.json:", err));
+        catalogo.appendChild(card);
+      });
+    });
+
+  window.addEventListener("load", () => {
+    const temaSalvo = localStorage.getItem('tema');
+
+    if (temaSalvo === 'azul') {
+      document.body.classList.add('tema-azul');
+      btnTemaAzul.classList.add('ativo');
+      btnTemaVermelho.classList.remove('ativo');
+
+      atualizarHueLogo();
+    }
+  });
+
+  function atualizarHueLogo() {
+  const logo = document.querySelector(".logo");
+  const tema = localStorage.getItem("tema");
+
+  if (tema === "azul") {
+    logo.style.filter = "hue-rotate(240deg) saturate(1.4)";
+  } else {
+    logo.style.filter = "hue-rotate(0deg)";
+  }
+}
 </script>
+
 </body>
 </html>
