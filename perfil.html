@@ -597,273 +597,290 @@
     <button class="fechar" id="btnFecharOpcoes">Fechar</button>
   </dialog>
 
-    <script>
-        const RAW_DESC_KEY = "usuarioDescricaoRaw";
-        const FOTO_KEY = "fotoPerfil";
-        const LIKE_KEY = "curtido";
-        const FOLLOW_KEY = "seguido";
-        const STORAGE_KEY = "favoritosJogos";
+  <script>
+    const RAW_DESC_KEY = "usuarioDescricaoRaw";
+    const FOTO_KEY = "fotoPerfil";
+    const LIKE_KEY = "curtido";
+    const FOLLOW_KEY = "seguido";
+    const STORAGE_KEY = "favoritosJogos";
+    const DEFAULT_DESC_TEMPLATE = "Essa é a conta oficial de {user} no Roblox 2.";
+    const FALLBACK_IMAGE_URL = "https://i.ytimg.com/vi/dnHQn_mpDpk/maxresdefault.jpg";
 
-        const DEFAULT_DESC_TEMPLATE = "Essa é a conta oficial de {user} no Roblox 2.";
+    const inputFoto = document.getElementById("inputFoto");
+    const btnAlterarFoto = document.getElementById("btnAlterarFoto");
+    const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
+    const fotoPerfil = document.getElementById("fotoPerfil");
 
-        const inputFoto = document.getElementById("inputFoto");
-        const btnAlterarFoto = document.getElementById("btnAlterarFoto");
-        const btnAlterarFotoOpcoes = document.getElementById("btnAlterarFotoOpcoes");
-        const fotoPerfil = document.getElementById("fotoPerfil");
+    const nomeUsuario = document.getElementById("nomeUsuario");
+    const arrobaUsuario = document.getElementById("arrobaUsuario");
+    const inputNome = document.getElementById("inputNome");
 
-        const nomeUsuario = document.getElementById("nomeUsuario");
-        const arrobaUsuario = document.getElementById("arrobaUsuario");
-        const inputNome = document.getElementById("inputNome");
+    const descricao = document.getElementById("descricao");
 
-        const descricao = document.getElementById("descricao");
+    const btnTemaVermelho = document.getElementById("btnTemaVermelho");
+    const btnTemaAzul = document.getElementById("btnTemaAzul");
 
-        const btnTemaVermelho = document.getElementById("btnTemaVermelho");
-        const btnTemaAzul = document.getElementById("btnTemaAzul");
+    const popup = document.getElementById("popupOpcoes");
+    const btnOpcoes = document.getElementById("btnOpcoes");
+    const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
 
-        const popup = document.getElementById("popupOpcoes");
-        const btnOpcoes = document.getElementById("btnOpcoes");
-        const btnFecharOpcoes = document.getElementById("btnFecharOpcoes");
+    const likeIcon = document.getElementById("likeIcon");
+    const seguirBtn = document.getElementById("seguir");
 
-        const likeIcon = document.getElementById("likeIcon");
-        const seguirBtn = document.getElementById("seguir");
+    const favoritosGrid = document.getElementById("favoritosGrid");
+    const semFavoritosMsg = document.getElementById("semFavoritosMsg");
 
-        const favoritosGrid = document.getElementById("favoritosGrid");
-        const semFavoritosMsg = document.getElementById("semFavoritosMsg");
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
 
-        function escapeHtml(str) {
-            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    function renderDescricao(rawText, name) {
+        if (!rawText) rawText = DEFAULT_DESC_TEMPLATE;
+        return rawText.replace(/\{user\}/g, `<span contenteditable="false" class="nome" id="nomeUsuario">${escapeHtml(name)}</span>`);
+    }
+
+    btnAlterarFoto?.addEventListener("click", () => inputFoto.click());
+    btnAlterarFotoOpcoes?.addEventListener("click", () => inputFoto.click());
+
+    inputFoto?.addEventListener("change", function (e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            fotoPerfil.src = ev.target.result;
+            try { localStorage.setItem(FOTO_KEY, ev.target.result); } catch (e) { console.error("Erro ao salvar foto:", e); }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function atualizarNome(novoNome) {
+        novoNome = (novoNome || "Usuário").trim();
+
+        const isEditingNome = document.activeElement.id === "nomeUsuario";
+        const isEditingInput = document.activeElement.id === "inputNome";
+
+        if (!isEditingNome) {
+            nomeUsuario.textContent = novoNome;
+        }
+        if (!isEditingInput && inputNome) {
+            inputNome.value = novoNome;
         }
 
-        function renderDescricao(rawText, name) {
-            if (!rawText) rawText = DEFAULT_DESC_TEMPLATE;
-            return rawText.replace(/\{user\}/g, `<span contenteditable="false" class="nome" id="nomeUsuario">${escapeHtml(name)}</span>`);
+        let arroba = novoNome.toLowerCase().replace(/\s+/g, "");
+        if (arroba === "") arroba = "usuario";
+        arrobaUsuario.textContent = arroba;
+
+        try { localStorage.setItem("nomeUsuario", novoNome); } catch (e) { console.error("Erro ao salvar nome:", e); }
+
+        const raw = localStorage.getItem(RAW_DESC_KEY) || DEFAULT_DESC_TEMPLATE;
+
+        if (descricao && !document.activeElement.id.startsWith("descricao")) {
+            descricao.innerHTML = renderDescricao(raw, nomeUsuario.textContent);
+        }
+    }
+
+    nomeUsuario?.addEventListener("input", function () {
+        atualizarNome(this.textContent);
+    });
+    inputNome?.addEventListener("input", function () {
+        atualizarNome(this.value);
+    });
+
+    descricao?.addEventListener("input", function () {
+        let html = this.innerHTML;
+
+        html = html.replace(/<span[^>]*id=["']?nomeUsuario["'][^>]*>.*?<\/span>/gi, "{user}");
+
+        try { localStorage.setItem(RAW_DESC_KEY, html); } catch (e) { console.error("Erro ao salvar descrição:", e); }
+        atualizarNome(nomeUsuario.textContent);
+    });
+
+
+    function setLikeState(isLiked, save = true) {
+        likeIcon.classList.toggle("liked", !!isLiked);
+        likeIcon.classList.toggle("not-liked", !isLiked);
+        likeIcon.src = isLiked ? "https://imguh.com/images/2025/10/27/imageadc46aa3f8cae4d3.png" : "https://imguh.com/images/2025/10/27/imagee7d82e8cb4688f31.png";
+        if (save) try { localStorage.setItem(LIKE_KEY, isLiked ? "1" : "0"); } catch (e) { console.error("Erro ao salvar like:", e); }
+    }
+    likeIcon?.addEventListener("click", function () {
+        const current = localStorage.getItem(LIKE_KEY) === "1";
+        setLikeState(!current);
+        likeIcon.animate([{ transform: "scale(1.15)" }, { transform: "scale(1)" }], { duration: 140 });
+    });
+
+    function setFollowState(isFollowing, save = true) {
+        seguirBtn.classList.toggle("seguindo", !!isFollowing);
+        seguirBtn.textContent = isFollowing ? "Seguindo" : "Seguir";
+        if (save) try { localStorage.setItem(FOLLOW_KEY, isFollowing ? "1" : "0"); } catch (e) { console.error("Erro ao salvar seguir:", e); }
+    }
+    seguirBtn?.addEventListener("click", function () {
+        const current = localStorage.getItem(FOLLOW_KEY) === "1";
+        setFollowState(!current);
+    });
+
+    btnTemaVermelho?.addEventListener("click", function () {
+        document.body.classList.remove("tema-azul");
+        btnTemaVermelho.classList.add("ativo");
+        btnTemaAzul.classList.remove("ativo");
+        try { localStorage.setItem("tema", "vermelho"); } catch (e) { console.error("Erro ao salvar tema:", e); }
+    });
+
+    btnTemaAzul?.addEventListener("click", function () {
+        document.body.classList.add("tema-azul");
+        btnTemaAzul.classList.add("ativo");
+        btnTemaVermelho.classList.remove("ativo");
+        try { localStorage.setItem("tema", "azul"); } catch (e) { console.error("Erro ao salvar tema:", e); }
+    });
+
+    btnOpcoes?.addEventListener("click", () => {
+        if (inputNome) inputNome.value = nomeUsuario.textContent;
+        if (typeof popup.showModal === "function") popup.showModal();
+        else popup.style.display = "block";
+    });
+    btnFecharOpcoes?.addEventListener("click", () => {
+        if (typeof popup.close === "function") popup.close();
+        else popup.style.display = "none";
+    });
+
+    function getFavorites() {
+        const rawData = localStorage.getItem(STORAGE_KEY);
+        if (!rawData) return [];
+
+        try {
+            const favoritesArray = JSON.parse(rawData);
+
+            return favoritesArray
+                .map(id => parseInt(id))
+                .filter(id => !isNaN(id));
+
+        } catch (e) {
+            console.error("Erro ao fazer parse do JSON de favoritos. Retornando array vazio.", e);
+            return [];
+        }
+    }
+
+    function saveFavorites(favoritesArray) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(favoritesArray));
+        } catch (e) { console.error("Erro ao salvar favoritos:", e); }
+    }
+
+    function removeFavorite(id) {
+        const idNumero = parseInt(id);
+        const currentFavorites = getFavorites(); 
+
+        const updatedFavorites = currentFavorites.filter(f => f !== idNumero);
+        
+        saveFavorites(updatedFavorites); 
+    }
+
+    function carregarFavoritosPerfil() {
+        const container = document.getElementById("favoritosGrid");
+        const semMsg = document.getElementById("semFavoritosMsg");
+
+        if (!container || !semMsg) return;
+
+        const favoritos = getFavorites();
+
+        if (favoritos.length === 0) {
+            container.innerHTML = "";
+            semMsg.style.display = "block";
+            return;
         }
 
-        btnAlterarFoto?.addEventListener("click", () => inputFoto.click());
-        btnAlterarFotoOpcoes?.addEventListener("click", () => inputFoto.click());
+        semMsg.style.display = "none";
+        container.innerHTML = ""; 
 
-        inputFoto?.addEventListener("change", function (e) {
-            const file = e.target.files?.[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function (ev) {
-                fotoPerfil.src = ev.target.result;
-                try { localStorage.setItem(FOTO_KEY, ev.target.result); } catch (e) { console.error("Erro ao salvar foto:", e); }
-            };
-            reader.readAsDataURL(file);
-        });
+        fetch("jogos.json")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro de rede ao buscar jogos.json: ${response.status} (${response.statusText})`);
+                }
+                return response.json();
+            })
+            .then(jogos => {
+                favoritos.forEach(id => {
+                    const jogo = jogos.find(j => j.id == id); 
 
-        function atualizarNome(novoNome) {
-            novoNome = (novoNome || "Usuário").trim();
+                    if (!jogo) {
+                        console.warn(`Jogo com ID ${id} não encontrado em jogos.json.`);
+                        return;
+                    }
 
-            const isEditingNome = document.activeElement.id === "nomeUsuario";
-            const isEditingInput = document.activeElement.id === "inputNome";
+                    const card = document.createElement("div");
+                    card.className = "jogo-favorito-card";
 
-            if (!isEditingNome) {
-                nomeUsuario.textContent = novoNome;
-            }
+                    card.innerHTML = `
+                        <img 
+                            src="${jogo.image}" 
+                            alt="${jogo.title}"
+                            onerror="this.onerror=null; this.src='${FALLBACK_IMAGE_URL}'; console.error('Falha ao carregar imagem: ${jogo.image}');"
+                        >
+                        <div class="jogo-favorito-title">${jogo.title}</div>
+                        <button class="remover-favorito" data-id="${jogo.id}">✖</button>
+                    `;
 
-            if (!isEditingInput && inputNome) {
-                inputNome.value = novoNome;
-            }
+                    container.appendChild(card);
+                });
 
-            let arroba = novoNome.toLowerCase().replace(/\s+/g, "");
-            if (arroba === "") arroba = "usuario";
-            arrobaUsuario.textContent = arroba;
+                container.querySelectorAll(".remover-favorito").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation(); 
+                        
+                        const idParaRemover = btn.getAttribute("data-id");
 
-            try { localStorage.setItem("nomeUsuario", novoNome); } catch (e) { console.error("Erro ao salvar nome:", e); }
+                        removeFavorite(idParaRemover); 
 
-            const raw = localStorage.getItem(RAW_DESC_KEY) || DEFAULT_DESC_TEMPLATE;
-            
-            if (descricao && !document.activeElement.id.startsWith("descricao")) {
-                descricao.innerHTML = renderDescricao(raw, nomeUsuario.textContent);
-            }
-        }
+                        setTimeout(carregarFavoritosPerfil, 50); 
+                    });
+                });
+            })
+            .catch(err => {
+                console.error("ERRO CRÍTICO AO CARREGAR FAVORITOS:", err.message, err);
+                semMsg.textContent = `Erro ao carregar favoritos. Detalhe: ${err.message}`;
+                semMsg.style.display = "block";
+            });
+    }
 
-        nomeUsuario?.addEventListener("input", function () {
-            atualizarNome(this.textContent);
-        });
-        inputNome?.addEventListener("input", function () {
-            atualizarNome(this.value);
-        });
+    function carregarTudo() {
+        const foto = localStorage.getItem(FOTO_KEY);
+        if (foto) fotoPerfil.src = foto;
 
-        descricao?.addEventListener("input", function () {
-            let html = this.innerHTML;
+        const nomeSalvo = localStorage.getItem("nomeUsuario") || "Usuário";
+        nomeUsuario.textContent = nomeSalvo;
 
-            html = html.replace(/<span[^>]*id=["']?nomeUsuario["'][^>]*>.*?<\/span>/gi, "{user}");
-
-            try { localStorage.setItem(RAW_DESC_KEY, html); } catch (e) { console.error("Erro ao salvar descrição:", e); }
-
-            atualizarNome(nomeUsuario.textContent);
-        });
-
-        function setLikeState(isLiked, save = true) {
-            likeIcon.classList.toggle("liked", !!isLiked);
-            likeIcon.classList.toggle("not-liked", !isLiked);
-            likeIcon.src = isLiked ? "https://imguh.com/images/2025/10/27/imageadc46aa3f8cae4d3.png" : "https://imguh.com/images/2025/10/27/imagee7d82e8cb4688f31.png";
-            if (save) try { localStorage.setItem(LIKE_KEY, isLiked ? "1" : "0"); } catch (e) { console.error("Erro ao salvar like:", e); }
-        }
-        likeIcon?.addEventListener("click", function () {
-            const current = localStorage.getItem(LIKE_KEY) === "1";
-            setLikeState(!current);
-            likeIcon.animate([{ transform: "scale(1.15)" }, { transform: "scale(1)" }], { duration: 140 });
-        });
-
-        function setFollowState(isFollowing, save = true) {
-            seguirBtn.classList.toggle("seguindo", !!isFollowing);
-            seguirBtn.textContent = isFollowing ? "Seguindo" : "Seguir";
-            if (save) try { localStorage.setItem(FOLLOW_KEY, isFollowing ? "1" : "0"); } catch (e) { console.error("Erro ao salvar seguir:", e); }
-        }
-        seguirBtn?.addEventListener("click", function () {
-            const current = localStorage.getItem(FOLLOW_KEY) === "1";
-            setFollowState(!current);
-        });
-
-        btnTemaVermelho?.addEventListener("click", function () {
-            document.body.classList.remove("tema-azul");
-            btnTemaVermelho.classList.add("ativo");
-            btnTemaAzul.classList.remove("ativo");
-            try { localStorage.setItem("tema", "vermelho"); } catch (e) { console.error("Erro ao salvar tema:", e); }
-        });
-
-        btnTemaAzul?.addEventListener("click", function () {
+        const tema = localStorage.getItem("tema");
+        if (tema === "azul") {
             document.body.classList.add("tema-azul");
-            btnTemaAzul.classList.add("ativo");
-            btnTemaVermelho.classList.remove("ativo");
-            try { localStorage.setItem("tema", "azul"); } catch (e) { console.error("Erro ao salvar tema:", e); }
-        });
-
-        btnOpcoes?.addEventListener("click", () => {
-            if (inputNome) inputNome.value = nomeUsuario.textContent;
-            if (typeof popup.showModal === "function") popup.showModal();
-            else popup.style.display = "block";
-        });
-        btnFecharOpcoes?.addEventListener("click", () => {
-            if (typeof popup.close === "function") popup.close();
-            else popup.style.display = "none";
-        });
-
-        function getFavorites() {
-            try {
-                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            } catch {
-                return [];
-            }
+            btnTemaAzul?.classList.add("ativo");
+            btnTemaVermelho?.classList.remove("ativo");
+        } else {
+            document.body.classList.remove("tema-azul");
+            btnTemaVermelho?.classList.add("ativo");
+            btnTemaAzul?.classList.remove("ativo");
         }
 
-        function saveFavorites(arr) {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-            } catch (e) { console.error("Erro ao salvar favoritos:", e); }
+        setLikeState(localStorage.getItem(LIKE_KEY) === "1", false);
+        setFollowState(localStorage.getItem(FOLLOW_KEY) === "1", false);
+
+        let descRaw = localStorage.getItem(RAW_DESC_KEY);
+        if (!descRaw) {
+            descRaw = DEFAULT_DESC_TEMPLATE;
+            try { localStorage.setItem(RAW_DESC_KEY, descRaw); } catch (e) { console.error("Erro ao salvar default desc:", e); }
         }
 
-        function removeFavorite(id) {
-            saveFavorites(getFavorites().filter(f => f !== id));
-        }
+        atualizarNome(nomeSalvo);
 
-        function carregarFavoritosPerfil() {
-          const container = document.getElementById("favoritosGrid");
-          const semMsg = document.getElementById("semFavoritosMsg");
-          const FALLBACK_IMAGE_URL = "https://i.ytimg.com/vi/dnHQn_mpDpk/maxresdefault.jpg";
+        descricao.innerHTML = renderDescricao(descRaw, nomeSalvo);
+    }
 
-          if (!container || !semMsg) return;
+    carregarTudo();
 
-          const favoritos = getFavorites();
+    carregarFavoritosPerfil();
 
-          if (favoritos.length === 0) {
-              container.innerHTML = "";
-              semMsg.style.display = "block";
-              return;
-          }
+    window.addEventListener('focus', carregarFavoritosPerfil);
 
-          semMsg.style.display = "none";
-          container.innerHTML = ""; 
-
-          fetch("jogos.json")
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error(`Erro de rede ao buscar jogos.json: ${response.status} (${response.statusText})`);
-                  }
-                  return response.json();
-              })
-              .then(jogos => {
-                  favoritos.forEach(id => {
-                      const jogo = jogos.find(j => j.id == id); 
-
-                      if (!jogo) {
-                          console.warn(`Jogo com ID ${id} não encontrado em jogos.json.`);
-                          return;
-                      }
-
-                      const card = document.createElement("div");
-                      card.className = "jogo-favorito-card";
-
-                      card.innerHTML = `
-                          <img 
-                              src="${jogo.image}" 
-                              alt="${jogo.title}"
-                              onerror="this.onerror=null; this.src='${FALLBACK_IMAGE_URL}'; console.error('Falha ao carregar imagem: ${jogo.image}');"
-                          >
-                          <div class="jogo-favorito-title">${jogo.title}</div>
-                          <button class="remover-favorito" data-id="${jogo.id}">✖</button>
-                      `;
-
-                      container.appendChild(card);
-                  });
-
-                  container.querySelectorAll(".remover-favorito").forEach(btn => {
-                      btn.addEventListener("click", (e) => {
-                          e.stopPropagation();
-                          const id = btn.getAttribute("data-id");
-                          removeFavorite(parseInt(id));
-                          carregarFavoritosPerfil();
-                      });
-                  });
-              })
-              .catch(err => {
-                  console.error("ERRO CRÍTICO AO CARREGAR FAVORITOS:", err.message, err);
-                  semMsg.textContent = `Erro ao carregar favoritos. Detalhe: ${err.message}`;
-                  semMsg.style.display = "block";
-              });
-      }
-
-        function carregarTudo() {
-            const foto = localStorage.getItem(FOTO_KEY);
-            if (foto) fotoPerfil.src = foto;
-
-            const nomeSalvo = localStorage.getItem("nomeUsuario") || "Usuário";
-            nomeUsuario.textContent = nomeSalvo;
-
-            const tema = localStorage.getItem("tema");
-            if (tema === "azul") {
-                document.body.classList.add("tema-azul");
-                btnTemaAzul?.classList.add("ativo");
-                btnTemaVermelho?.classList.remove("ativo");
-            } else {
-                document.body.classList.remove("tema-azul");
-                btnTemaVermelho?.classList.add("ativo");
-                btnTemaAzul?.classList.remove("ativo");
-            }
-
-            setLikeState(localStorage.getItem(LIKE_KEY) === "1", false);
-            setFollowState(localStorage.getItem(FOLLOW_KEY) === "1", false);
-
-            let descRaw = localStorage.getItem(RAW_DESC_KEY);
-            if (!descRaw) {
-                descRaw = DEFAULT_DESC_TEMPLATE;
-                try { localStorage.setItem(RAW_DESC_KEY, descRaw); } catch (e) { console.error("Erro ao salvar descrição padrão:", e); }
-            }
-
-            atualizarNome(nomeSalvo);
-
-            descricao.innerHTML = renderDescricao(descRaw, nomeSalvo);
-        }
-
-        carregarTudo();
-
-        carregarFavoritosPerfil();
-
-        window.addEventListener('focus', carregarFavoritosPerfil);
-    </script>
+</script>
 </body>
 </html>
