@@ -3,186 +3,217 @@
     "image": "https://imguh.com/images/2025/11/18/imagea53833d11ac147bc.png",
     "title": "Red Roblox Cap",
     "price": 0,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/48474313/Red-Roblox-Cap"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image85aa0aa5a3ea96d5.png",
     "title": "Blue Sparkle Time Fedora",
     "price": 100000000,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/119916949/Midnight-Blue-Sparkle-Time-Fedora"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagec955d0a1581c4810.png",
     "title": "Sparkling Angel Wings",
     "price": 1000,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/192557913/Sparkling-Angel-Wings"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image68e7d53a40de8dcc.png",
     "title": "Dominus Infernus",
     "price": 618033988,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/31101391/Dominus-Infernus"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imaged506d65db27f7240.png",
     "title": "True Blue Hair",
     "price": 0,
+    "limited": false,
     "link": "http://roblox.com/catalog/451221329/True-Blue-Hair"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image8bce77239f277947.png",
     "title": "Headless Horseman",
-    "price": 31000,
+    "price": -1,
+    "limited": false,
     "link": "https://www.roblox.com/bundles/201/Headless-Horseman"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image2385a61341feb3d5.png",
     "title": "Korblox Deathspeaker",
     "price": 17000,
+    "limited": false,
     "link": "https://www.roblox.com/bundles/192/Korblox-Deathspeaker"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image4c4044b8b82700bb.png",
     "title": "Glossy Red Baseball Cap",
     "price": 105,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/12803855954/Glossy-Red-Baseball-Cap"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image43c134648e7ec74c.png",
     "title": "Saber Boss Egg",
     "price": 243,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/4773591735/Saber-Boss-Egg"
   },  
   {
     "image": "https://imguh.com/images/2025/11/18/imageecbade3c0033c226.png",
     "title": "Brainfreeze Egg",
     "price": 250,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/4773579034/Brainfreeze-Egg"
   },  
   {
     "image": "https://imguh.com/images/2025/11/18/image1355ee279a1fe731.png",
     "title": "Turbo Builders Club Hard Hat",
     "price": 1150,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/11844853/Turbo-Builders-Club-Hard-Hat"
   },  
   {
     "image": "https://imguh.com/images/2025/11/18/image73224fad3aa0443b.png",
     "title": "Outrageous Builders Club Hard Hat",
     "price": 1150,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/17408283/Outrageous-Builders-Club-Hard-Hat"
   },  
   {
     "image": "https://imguh.com/images/2025/11/18/imagefcb609a18ecf68bd.png",
     "title": "Pink Eye",
     "price": 2299,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/250395444/Pink-Eye"
   },  
   {
     "image": "https://imguh.com/images/2025/11/18/image42fff396e4c6126e.png",
     "title": "Snowflake Eyes",
     "price": 22000,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/76233968067050/Snowflake-Eyes"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image5436b12aab91f2e8.png",
     "title": "Valkyrie Helm",
     "price": 300000,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/1365767/Valkyrie-Helm"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagea7ed554083da03f9.png",
     "title": "Pal Hair",
     "price": 0,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/63690008/Pal-Hair"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagecd22b64cdcb3371c.png",
     "title": "Frozen Horns of the Frigid Planes",
     "price": 3095000,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/74891470/Frozen-Horns-of-the-Frigid-Planes"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image122992a0b295ac98.png",
     "title": "Beautiful Brown Hair for Beautiful People",
     "price": 90,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/17877340/Beautiful-Brown-Hair-for-Beautiful-People"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image1eeab87c85dea538.png",
     "title": "Dominus Empyreus",
     "price": 618033988,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/21070012/Dominus-Empyreus"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image80ba3653ba06e44d.png",
     "title": "Man Face",
     "price": 0,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/86487700/Man-Face"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagef0408a8eddcd144f.png",
     "title": "Epic Face",
     "price": -1,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/42070576/Epic-Face"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imageda6ed89843dcd0c8.png",
     "title": "Golden Super Fly Boombox",
     "price": 500,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/212641536/Golden-Super-Fly-Boombox"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imageb7b889a7faad06b1.png",
     "title": "Bighead",
     "price": 3800,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/1048037/Bighead"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image07bd27d54e1180b5.png",
     "title": "Bloxy-Cola",
     "price": 50,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/10472779/Bloxy-Cola"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagec7b71a5b74da4c59.png",
     "title": "Hyperlaser Gun",
     "price": 3799,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/130113146/Hyperlaser-Gun"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imageb907270c3b411401.png",
     "title": "Subspace Tripmine",
     "price": 150,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/11999247/Subspace-Tripmine"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image076bfdac9fbd6dd8.png",
     "title": "Big dawg (rawr)",
     "price": -1,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/11101755563/Classic-Dog"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image3069b675c7568a90.png",
     "title": "Skeleton",
     "price": 500,
+    "limited": false,
     "link": "https://www.roblox.com/bundles/295/Skeleton"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image793dc69968664411.png",
     "title": "Classic ROBLOX 2 Pumpkin Head",
     "price": 250,
+    "limited": true,
     "link": "https://www.roblox.com/catalog/1158038/Classic-ROBLOX-Pumpkin-Head"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/imagef703fe1ebdbea277.png",
     "title": "Pirate Captain's Hat",
     "price": 1539,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/1028859/Pirate-Captains-Hat"
   },
   {
     "image": "https://imguh.com/images/2025/11/18/image15a3f32a2db2308a.png",
     "title": "Six Seven Kid",
     "price": 67,
+    "limited": false,
     "link": "https://www.roblox.com/catalog/114775973350332/Mason-67-Kid"
   }
 ]
